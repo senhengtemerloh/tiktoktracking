@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Videos</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1DYwIe7jeaU1BZtLOG69iH4dSHBIOlsA",
+      authDomain: "gs009-tracker.firebaseapp.com",
+      databaseURL: "https://gs009-tracker-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "gs009-tracker",
+      storageBucket: "gs009-tracker.firebasestorage.app",
+      messagingSenderId: "553658720203",
+      appId: "1:553658720203:web:2aeff044514977ad60a04e",
+      measurementId: "G-XC0DB8GPRM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const params = new URLSearchParams(window.location.search);
+    const staff = params.get("staff");
+    document.getElementById("staffName").textContent = staff;
+
+    const list = document.getElementById("staffVideoList");
+    const refPath = ref(db, "videos");
+
+    onValue(refPath, (snapshot) => {
+      const data = snapshot.val();
+      list.innerHTML = "";
+      if (data) {
+        Object.values(data).forEach((item) => {
+          if (item.staff === staff) {
+            const row = `
+              <tr>
+                <td><a href="${item.link}" target="_blank">View Video</a></td>
+                <td>${item.timestamp}</td>
+              </tr>`;
+            list.innerHTML += row;
+          }
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Videos Submitted by <span id="staffName"></span></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Video Link</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody id="staffVideoList"></tbody>
+    </table>
+    <br>
+    <a href="index.html">← Back to Main Page</a>
+  </div>
+</body>
+</html>
