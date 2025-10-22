@@ -5,60 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GS009 TikTok Video Tracker</title>
   <link rel="stylesheet" href="style.css" />
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
   <div class="container">
     <h2>GS009 TikTok Video Tracker</h2>
 
-    <form id="trackerForm">
-      <label for="staffCode">Staff Code:</label>
-      <select id="staffCode" required>
-        <option value="">-- Select Staff Code --</option>
-        <option value="SH9861">SH9861</option>
-        <option value="SH10070">SH10070</option>
-        <option value="SH14326">SH14326</option>
-        <option value="SH16611">SH16611</option>
-        <option value="SH18556">SH18556</option>
-        <option value="SH19800">SH19800</option>
-        <option value="SH20201">SH20201</option>
-      </select>
-
-      <label>Enter up to 5 TikTok video links:</label>
-      <div id="linkInputs">
-        <input type="url" placeholder="TikTok Video Link 1" />
-        <input type="url" placeholder="TikTok Video Link 2" />
-        <input type="url" placeholder="TikTok Video Link 3" />
-        <input type="url" placeholder="TikTok Video Link 4" />
-        <input type="url" placeholder="TikTok Video Link 5" />
-      </div>
-
+    <form id="videoForm">
+      <input type="text" id="staffName" placeholder="Staff name" required />
+      <input type="text" id="videoLink" placeholder="TikTok video link" required />
       <button type="submit">Submit</button>
     </form>
 
-    <p id="message"></p>
-
     <hr />
 
-    <h3>Monthly Summary (<span id="monthLabel"></span>)</h3>
-    <table id="summaryTable">
+    <h3>Submitted Videos</h3>
+    <table>
       <thead>
         <tr>
-          <th>Staff Code</th>
-          <th>Total Videos</th>
+          <th>Staff</th>
+          <th>Video Link</th>
+          <th>Timestamp</th>
         </tr>
       </thead>
-      <tbody></tbody>
-      <tfoot>
-        <tr class="grand-total">
-          <td>GS009 Total</td>
-          <td id="grandTotal">0</td>
-        </tr>
-      </tfoot>
+      <tbody id="videoList"></tbody>
     </table>
-
-    <button id="exportBtn">Export Monthly Data (JSON)</button>
   </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
