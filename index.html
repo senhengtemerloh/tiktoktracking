@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GS009 TikTok Video Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GS009 TikTok Tracker</title>
+  <link rel="stylesheet" href="style.css">
   <script type="module" src="script.js" defer></script>
 </head>
 <body>
@@ -12,20 +12,29 @@
     <h2>GS009 TikTok Video Tracker</h2>
 
     <form id="videoForm">
-      <input type="text" id="staffName" placeholder="Staff name" required />
-      <input type="text" id="videoLink" placeholder="TikTok video link" required />
+      <label for="staffCode">Select your staff code:</label>
+      <select id="staffCode" required>
+        <option value="">-- Choose Staff Code --</option>
+        <option value="GS001">GS001</option>
+        <option value="GS002">GS002</option>
+        <option value="GS003">GS003</option>
+        <option value="GS004">GS004</option>
+        <option value="GS005">GS005</option>
+      </select>
+
+      <input type="url" id="videoLink" placeholder="Paste TikTok video link here" required />
       <button type="submit">Submit</button>
     </form>
 
-    <hr />
+    <hr>
 
-    <h3>Submitted Videos</h3>
+    <h3>All Submitted Videos</h3>
     <table>
       <thead>
         <tr>
           <th>Staff</th>
           <th>Video Link</th>
-          <th>Timestamp</th>
+          <th>Time</th>
         </tr>
       </thead>
       <tbody id="videoList"></tbody>
