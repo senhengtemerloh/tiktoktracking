@@ -1,8 +1,8 @@
-// Firebase SDK v9+ modular import
+// Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-// Your Firebase configuration
+// Firebase config (from your console)
 const firebaseConfig = {
   apiKey: "AIzaSyC1DYwIe7jeaU1BZtLOG69iH4dSHBIOlsA",
   authDomain: "gs009-tracker.firebaseapp.com",
@@ -18,23 +18,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Form submit event
-const form = document.getElementById('videoForm');
-form.addEventListener('submit', (e) => {
+// DOM elements
+const form = document.getElementById("videoForm");
+const staffCode = document.getElementById("staffCode");
+const videoLink = document.getElementById("videoLink");
+const videoList = document.getElementById("videoList");
+
+// Submit handler
+form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const name = document.getElementById('staffName').value.trim();
-  const link = document.getElementById('videoLink').value.trim();
+  const staff = staffCode.value.trim();
+  const link = videoLink.value.trim();
 
-  if (name === '' || link === '') {
-    alert('Please fill in both fields');
+  if (staff === "") {
+    alert("Please select your staff code first!");
     return;
   }
 
-  // Push to Firebase
-  const videoRef = ref(db, 'videos');
+  if (link === "") {
+    alert("Please paste your TikTok link!");
+    return;
+  }
+
+  const videoRef = ref(db, "videos");
   push(videoRef, {
-    staff: name,
+    staff: staff,
     link: link,
     timestamp: new Date().toLocaleString()
   });
@@ -42,21 +51,19 @@ form.addEventListener('submit', (e) => {
   form.reset();
 });
 
-// Listen for data changes
-const videoList = document.getElementById('videoList');
-const videoRef = ref(db, 'videos');
-
+// Real-time display of all videos
+const videoRef = ref(db, "videos");
 onValue(videoRef, (snapshot) => {
   const data = snapshot.val();
-  videoList.innerHTML = '';
+  videoList.innerHTML = "";
 
   if (data) {
-    Object.values(data).forEach((video) => {
+    Object.values(data).forEach((item) => {
       const row = `
         <tr>
-          <td>${video.staff}</td>
-          <td><a href="${video.link}" target="_blank">View Video</a></td>
-          <td>${video.timestamp}</td>
+          <td><a href="staff.html?staff=${item.staff}">${item.staff}</a></td>
+          <td><a href="${item.link}" target="_blank">View Video</a></td>
+          <td>${item.timestamp}</td>
         </tr>`;
       videoList.innerHTML += row;
     });
